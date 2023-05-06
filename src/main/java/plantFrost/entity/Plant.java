@@ -1,14 +1,30 @@
 package plantFrost.entity;
 
 import java.util.List;
+import javax.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.NumberFormat;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.util.LinkedList;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Plant {
   private Integer plantId;
+  
+  @Length(max =30)
+  @Pattern(regexp = "[A-Z_]*")
   private String plantName;
+  
   private Boolean isPerennial;
   private Boolean doesFlower;
-  private Integer matDays;
+  
+  private Integer maturityDays;
 
   private List<FrostDate> frostDates = new LinkedList<>();
   private List<PlantDate> plantDates = new LinkedList<>();
@@ -49,12 +65,12 @@ public class Plant {
     this.doesFlower = doesFlower;
   }
 
-  public Integer getMatDays() {
-    return matDays;
+  public Integer getMaturityDays() {
+    return maturityDays;
   }
 
-  public void setMatDays(Integer matDays) {
-    this.matDays = matDays;
+  public void setMaturityDays(Integer matDays) {
+    this.maturityDays = matDays;
   }
   
   public List<PlantDate> getPlantDates() {
@@ -69,18 +85,18 @@ public class Plant {
     result += "\n   name = " + plantName;
     result += "\n   is a perennial = " + isPerennial;
     result += "\n   does flower = " + doesFlower;
-    result += "\n   days to mature = " + matDays;
+    result += "\n   days to mature = " + maturityDays;
     
     result += "\n   dates planted:";
     
     for(PlantDate plantDate : plantDates) {
-      result += "\n      " + plantDate;
+      result += plantDate.toString();
     }
     
     result += "\n   frost dates:";
     
     for(FrostDate frostDates : frostDates) {
-      result += "\n      " + frostDates;
+      result += "\n   " + frostDates.toString();
     }
 
     return result;
